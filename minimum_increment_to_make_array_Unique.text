@@ -1,0 +1,32 @@
+class Solution {
+    public int minIncrementForUnique(int[] nums) {
+        // do it again due your time complexity 
+        
+        Arrays.sort(nums);
+      int max = 0;
+        for(int i =0;i<nums.length;i++){
+            max = Math.max(nums[i],max);
+        }
+        int []count = new int[nums.length+max];
+        List<Integer>list = new ArrayList<>();
+        for(int num:nums){
+            if(count[num]==0){
+                count[num]++;
+            }
+            else {
+                list.add(num);
+            }
+        }
+        int j =0;
+        int ans = 0;
+        for(int i =0;i<count.length;i++){
+            if(j<list.size()&&count[i]==0&&list.get(j)<i){
+                ans += i-list.get(j);
+                j++;
+            }
+        }
+        return ans;
+        
+      
+    }
+}
