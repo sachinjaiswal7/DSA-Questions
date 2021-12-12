@@ -1,0 +1,68 @@
+class Solution {
+    //do it again to understand it perfectaly 
+    
+    int k ;
+    public TreeNode canMerge(List<TreeNode> trees) {
+        if(trees.size()==1)return trees.get(0);
+        k = 1;
+
+        Set<Integer>roots = new HashSet<>();
+        for(int i =0;i<trees.size();i++){
+            if(trees.get(i).left==null&&trees.get(i).right==null)continue;
+            if(trees.get(i).left!=null&&!roots.add(trees.get(i).left.val))return null;
+            if(trees.get(i).right!=null&&!roots.add(trees.get(i).right.val))return null;
+            
+        }
+        for(int i =0;i<trees.size();i++){
+            if(trees.get(i).left==null&&trees.get(i).right==null&&!roots.contains(trees.get(i).val))return null;
+            
+        }
+        TreeNode root = null;
+        Map<Integer,TreeNode>map = new HashMap<>();
+        for(int i =0;i<trees.size();i++){
+            map.put(trees.get(i).val,trees.get(i));
+            if(!roots.contains(trees.get(i).val)){
+                if(root==null)root = trees.get(i);
+                else{
+                    return null;
+                }
+            }
+            
+        }
+       TreeNode ans =  create(root,map);
+        if(k<trees.size())return null;
+        if(!check(ans,Integer.MIN_VALUE,Integer.MAX_VALUE))return null;
+      return ans;
+        
+        
+        
+    }
+    public boolean check(TreeNode root,int min,int max){
+        if(root==null)return true;
+        if(root.val<=min)return false;
+        if(root.val>=max)return false;
+        return check(root.left,min,root.val)&&check(root.right,root.val,max);
+    }
+    public TreeNode create(TreeNode root,Map<Integer,TreeNode>map){
+        if(root==null)return null;
+        if(root.left!=null){
+           root.left =  create(root.left,map);
+        }
+        if(root.right!=null){
+            root.right = create(root.right,map);
+        }
+            
+    if(root.left==null&&root.right==null&&!map.containsKey(root.val))return root;
+        if(root.left==null&&root.right==null&&map.containsKey(root.val)){
+            root= map.get(root.val);
+            k++;
+            root.left = create(root.left,map);
+           root.right =  create(root.right,map);
+        }
+        
+        
+        return root;
+    }
+    
+    
+}
