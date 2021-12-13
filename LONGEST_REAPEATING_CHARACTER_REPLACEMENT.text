@@ -1,0 +1,42 @@
+class Solution {
+    public int characterReplacement(String s, int p) {
+        int[]map =new int[26];
+        int i =0;
+        int j = 0;
+        int max  =0;
+        while(j<s.length()){
+            int sum = 0;
+            int curMax = 0;
+            for(int k=0;k<26;k++){
+                if(map[k]>curMax)curMax = map[k];
+                sum+=map[k];
+            }
+            if(sum-curMax<=p){
+            char c = s.charAt(j);
+            map[c-'A']++;
+                if(j-i>max)max = j-i;
+                j++;
+                
+            }
+            else{
+                char c = s.charAt(i);
+                map[c-'A']--;
+                i++;
+            }
+            
+        }
+         int sum = 0;
+            int curMax = 0;
+            for(int k=0;k<26;k++){
+                if(map[k]>curMax)curMax = map[k];
+                sum+=map[k];
+            }
+            if(sum-curMax<=p){
+            
+            
+                if(j-i>max)max = j-i;
+                
+            }
+              return max;
+    }
+}
