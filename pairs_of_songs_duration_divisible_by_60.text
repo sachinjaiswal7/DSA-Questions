@@ -1,0 +1,22 @@
+class Solution {
+    public int numPairsDivisibleBy60(int[] time) {
+        // do it again 
+        int[]remain = new int[61];
+            int count = 0;
+        for(int i =0;i<time.length;i++){
+          
+            int mod = time[i]%60;
+           if(mod == 0){
+               count+=remain[0];
+               remain[0]++;
+               continue;
+           }
+            int remainder = 60-mod;
+            count+=remain[remainder];
+            remain[mod]++;
+           1 
+            
+        }
+        return count;
+    }
+}
