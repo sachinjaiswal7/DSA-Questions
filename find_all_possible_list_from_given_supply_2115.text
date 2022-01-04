@@ -1,0 +1,58 @@
+class Solution {
+    public List<String> findAllRecipes(String[] recipes, List<List<String>> ingredients, String[] supplies) {
+        // do it again with sum intuitive dfs
+        List<String>ans = new ArrayList<>();
+        Map<String,Integer>map = new HashMap<>();
+        for(int i =0;i<recipes.length;i++){
+            map.put(recipes[i],i);
+        }
+       List<List<Integer>>list = new ArrayList<>();
+        for(int i =0;i<recipes.length;i++){
+            list.add(new ArrayList<>());
+        }
+        for(int i = 0;i<ingredients.size();i++){
+            for(int j =0;j<ingredients.get(i).size();j++){
+                int num = map.getOrDefault(ingredients.get(i).get(j),-1);
+                if(num!=-1){
+                    list.get(num).add(map.get(recipes[i]));
+                }
+                    
+                
+            }
+        }
+        int[]indegree = new int[recipes.length];
+        for(int i =0;i<indegree.length;i++){
+            for(int j = 0;j<list.get(i).size();j++){
+                indegree[list.get(i).get(j)]++;
+            }
+        }
+        Set<String>avail = new HashSet<>();
+        for(int i =0;i<supplies.length;i++){
+            avail.add(supplies[i]);
+        }
+        Queue<Integer>q = new LinkedList<>();
+        for(int i =0;i<indegree.length;i++){
+            if(indegree[i] == 0)q.add(i);
+        }
+        while(!q.isEmpty()){
+            int val = q.poll();
+            List<String>item = ingredients.get(val);
+           
+           
+            if(!avail.containsAll(item))continue;
+            ans.add(recipes[val]);
+            avail.add(recipes[val]);
+            List<Integer>l = list.get(val);
+            for(int i =0;i<l.size();i++){
+                indegree[l.get(i)]--;
+                if(indegree[l.get(i)] == 0){
+                    q.add(l.get(i));
+                }
+            }
+        }
+        return ans;
+        
+      
+        
+    }
+}
