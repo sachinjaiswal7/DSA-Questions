@@ -1,0 +1,24 @@
+class Solution {
+    public List<Integer> findClosestElements(int[] arr, int k, int x) {
+        //this time do it with binary search ;
+        int[]diff = new int[arr.length];
+        for(int i =0;i<arr.length;i++){
+            diff[i] = Math.abs(arr[i]-x);
+        }
+        int i =0;
+        int j = arr.length-1;
+        while(j-i+1>k){
+            if(diff[j] == diff[i])j--;
+            else if(diff[i]<diff[j])j--;
+            else {
+                i++;
+            }
+        }
+        List<Integer>ans = new ArrayList<>();
+        for(int p = i;p<=j;p++){
+            ans.add(arr[p]);
+        }
+        return ans;
+        
+    }
+}
