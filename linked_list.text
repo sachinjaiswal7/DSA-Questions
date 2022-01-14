@@ -1,0 +1,131 @@
+class MyLinkedList {
+    //just revise the concept of linkedlist;
+    Node head;
+    Node tail;
+    class Node{
+        Node next;
+        int val;
+        Node(int val){
+            this.val =val;
+        }
+    }
+    int size;
+
+    public MyLinkedList() {
+        size = 0;
+    }
+    
+    public int get(int index) {
+        if(index<size){
+            int i = 0;
+            Node temp = head;
+            while(i!=index){
+                temp = temp.next;
+                i++;
+               
+            }
+           
+            return temp.val;
+        }
+        return -1;
+    }
+    
+    public void addAtHead(int val) {
+        Node n = new Node(val);
+        size++;
+       if(head ==null){
+           head = tail = n;
+       }
+        else{
+            n.next = head;
+            head = n;
+        }
+         
+    }
+    
+    public void addAtTail(int val) {
+        Node n = new Node(val);
+        size++;
+        if(head ==null){
+            head = tail = n;
+        }
+        else{
+            tail.next = n;
+            tail = tail.next;
+        }
+       
+    }
+    
+    public void addAtIndex(int index, int val) {
+        if(index>size)return;
+        Node n = new Node(val);
+        if(index ==0){
+            if(head ==null){
+                head  = tail = n;
+            }
+            else{
+            n.next  = head;
+            head = n;
+            }
+            
+            
+        }
+        else if(index == size){
+            tail.next = n;
+            tail = tail.next;
+        }
+        else{
+            int i =1;
+            Node temp = head;
+            while(i!=index){
+                temp = temp.next;
+                i++;
+               
+            }
+            n.next = temp.next;
+            temp.next = n;
+            
+           
+        }
+      size++;
+        
+      
+        
+        
+    }
+    
+    public void deleteAtIndex(int index) {
+       
+        if(index<size){
+            if(index ==0){
+                head  = head.next;
+                if(head ==null)tail = null;
+            }
+            else{
+            Node temp = head;
+                int i = 1;
+                while(i!=index){
+                    temp = temp.next;
+                    i++;
+                }
+                if(temp.next!=null){
+                    temp.next = temp.next.next;
+                    if(index == size-1)tail = temp;
+                }
+            }
+            
+            size--;
+        }
+    }
+        public void print(){
+            Node temp = head;
+            while(temp!=null){
+                System.out.print(temp.val+"->");
+                temp = temp.next;
+            }
+            System.out.print("head->"+head.val);
+            System.out.print("tail->"+tail.val);
+            System.out.println();
+            
+        }
+}
