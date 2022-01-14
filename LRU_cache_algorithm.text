@@ -1,0 +1,85 @@
+class LRUCache {
+Node head;
+    Node tail;
+    int size;
+    int k ;
+    Map<Integer,Node>map;
+    class Node{
+        int key;
+        int value;
+        Node prev;
+        Node next;
+        Node(int key,int value){
+            this.key = key;
+            this.value = value;
+        }
+    }
+    public LRUCache(int capacity) {
+        map = new HashMap<>();
+        k = 0;
+        size = capacity;
+        tail = new Node(0,0);
+        head = new Node(0,0);
+        head.next = tail;
+        tail.prev  = head;
+    }
+    
+    public int get(int key) {
+        int val = -1;
+        if(map.containsKey(key)){
+            val = map.get(key).value;
+            operation(map.get(key));
+        }
+      
+        return val;
+    }
+    
+    public void put(int key, int value) {
+        if(map.containsKey(key)){
+            Node temp = map.get(key);
+            temp.value = value;
+            operation(temp);
+            return;
+        }
+        if(k<size){
+            k++;
+            Node n = new Node(key,value);
+            Node last  = head.next;
+            head.next = n;
+            last.prev = n;
+            n.prev = head;
+            n.next = last;
+            map.put(key,n);
+        }
+        else{
+            Node last = tail.prev.prev;
+            map.remove(last.next.key);
+            last.next = tail;
+            tail.prev = last;
+            Node firstNext = head.next;
+            Node n = new Node(key,value);
+            firstNext.prev = n;
+            n.next = firstNext;
+            head.next = n;
+            n.prev = head;
+            map.put(key,n);
+            
+        }
+       
+    }
+    public void operation(Node temp){
+        Node prev = temp.prev;
+        Node next= temp.next;
+        prev.next = next;
+        next.prev = prev;
+        Node firstNext = head.next;
+        head.next = temp;
+        temp.prev = head;
+        temp.next = firstNext;
+        firstNext.prev = temp;
+        
+    }
+    
+    
+    
+}
