@@ -1,0 +1,25 @@
+class Solution {
+    public List<Integer> pathInZigZagTree(int label) {
+        List<Integer>ans = new ArrayList<>();
+        if(label == 1){
+            ans.add(1);
+            return ans;
+        }
+        ans.add(label);
+        while(label!=2&&label!=3){
+            int byto = label/2;
+            int power = (int)(Math.log(label)/Math.log(2));
+          
+          int  last = (int)(Math.pow(2,power));
+            int diff =  (last-1)-byto;
+           label = (last/2)+diff;
+            ans.add(label);
+            
+            
+        }
+       
+        ans.add(1);
+        Collections.reverse(ans);
+        return ans;
+    }
+}
