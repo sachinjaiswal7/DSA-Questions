@@ -1,0 +1,40 @@
+class Solution {
+    public int minMovesToMakePalindrome(String s) {
+        char[]arr = s.toCharArray();
+        int i =0;
+        int j = s.length()-1;
+        int count = 0;
+        while(i<j){
+           int k = j;
+           
+            while(k>i && arr[k]!=arr[i]){
+                k--;
+                                          
+            }
+            if(k!=i){
+         for(int o = k;o<j;o++){
+             char c = arr[o];
+             arr[o] = arr[o+1];
+             arr[o+1] = c;
+             count++;
+             
+         }
+                i++;
+                j--;
+        }
+            else{
+                 char c = arr[k];
+             arr[k] = arr[k+1];
+             arr[k+1] = c;
+             count++;
+            }
+         
+           
+            
+            
+     
+        }
+       
+    return count ;
+    }
+}
